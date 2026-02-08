@@ -5,7 +5,7 @@ import tkinter as tk
 import random
 import string
 import sqlite3
-import time
+import pyperclip
 
 root = Tk()
 root.title("Менеджер паролей")
@@ -30,7 +30,7 @@ def addwin():
     add = Toplevel(root)
     add.title("Добавить пароль")
     add.geometry("500x500")
-    
+
     def show_pass():
         if entrypass['show'] == '*':
             entrypass.config(show='')
@@ -116,13 +116,16 @@ def view_password():
 
             pass_label = ttk.Label(viewpas, text=f"Пароль: {password}", font=('Arial', 12))
             pass_label.pack(pady=10)
-        else:
-            messagebox.showerror("Ошибка", "Пароль не найден!")
-            
-    except IndexError:
-        messagebox.showerror("Ошибка", "Выберите сервис из списка!")
+
+            def copy_pass():
+                pyperclip.copy(password)
+                messagebox.showinfo("Успех!", "Пароль успешно скопирован в буфер обмена!")
+
+            copypass = ttk.Button(viewpas, text="Копировать Пароль", command=copy_pass)
+        
+            copypass.pack(pady=10)
     except Exception as e:
-        messagebox.showerror("Ошибка", f"Произошла ошибка: {str(e)}")
+        pass
 
 def load_passwords():
     Listbox.delete(0, END)
@@ -135,7 +138,6 @@ def del_pass():
     try:
         selected_index = Listbox.curselection()
         if not selected_index:
-            messagebox.showerror("Ошибка", "Выберите сервис из списка!")
             return
             
         selected = selected_index[0]
