@@ -24,8 +24,6 @@ CREATE TABLE IF NOT EXISTS passwords (
 ''')
 connection.commit()
 
-clicks = 0
-
 generator = ''
 shpas = '*'
 def addwin():
@@ -181,3 +179,4 @@ load_passwords()
 
 root.mainloop()
 connection.close()
+
