@@ -24,12 +24,15 @@ CREATE TABLE IF NOT EXISTS passwords (
 ''')
 connection.commit()
 
+clicks = 0
+
 generator = ''
 shpas = '*'
 def addwin():
     add = Toplevel(root)
     add.title("Добавить пароль")
-    add.geometry("500x500")
+    add.geometry("700x700")
+    
 
     def show_pass():
         if entrypass['show'] == '*':
@@ -58,8 +61,16 @@ def addwin():
     entrypass.grid(row=2, column=1, padx=5, pady=5)
 
     showpass = ttk.Button(add, text="✓", command=show_pass)
-    showpass.grid(row=2, column=2, padx=5, pady=5)
+    showpass.grid(row=2, column=4, padx=5, pady=5)
     
+    def pastpass():
+            pas = entrypass.get()
+            paste = pyperclip.paste()
+            if pas != paste:
+                entrypass.insert(0, paste)
+            else:
+                showpass.state=["disabled"]
+
     def gen_pass():
         entrypass.delete(0, tk.END)
         alphabet = string.ascii_letters + string.digits + string.punctuation
@@ -84,7 +95,8 @@ def addwin():
                 messagebox.showerror("Ошибка!", "Такой сервис уже существует!")
         else:
             messagebox.showerror("Ошибка!", "Поля не должны быть пустыми!")
-    
+    past = ttk.Button(add, text="Вставить", command=pastpass)
+    past.grid(row=2, column=2, columnspan=2, pady=10)
     addpasword = ttk.Button(add, text="Добавить", command=addpass)
     addpasword.grid(row=3, column=0, columnspan=2, pady=10)
 
