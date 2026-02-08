@@ -78,8 +78,8 @@ def view_password():
         result = cursor.fetchone()
         
         if result:
-            login = result[0]  # Первый элемент - логин
-            password = result[1]  # Второй элемент - пароль
+            login = result[0]
+            password = result[1]
             
             serv_label = ttk.Label(viewpas, text=f"Сервис: {service}", font=('Arial', 14))
             serv_label.pack(pady=20)
