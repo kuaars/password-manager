@@ -1,7 +1,11 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
+import tkinter as tk
+import random
+import string
 import sqlite3
+import time
 
 root = Tk()
 root.title("Менеджер паролей")
@@ -20,10 +24,20 @@ CREATE TABLE IF NOT EXISTS passwords (
 ''')
 connection.commit()
 
+generator = ''
+shpas = '*'
 def addwin():
     add = Toplevel(root)
     add.title("Добавить пароль")
     add.geometry("500x500")
+    
+    def show_pass():
+        if entrypass['show'] == '*':
+            entrypass.config(show='')
+            showpass.config(text="X")
+        else:
+            entrypass.config(show='*')
+            showpass.config(text="✓")
     
     service_label = ttk.Label(add, text="Сервис:", font=('Arial', 12))
     service_label.grid(row=0, column=0, padx=5, pady=5, sticky=W)
@@ -40,9 +54,18 @@ def addwin():
     entrylogin = ttk.Entry(add, width=30, font=('Arial', 12))
     entrylogin.grid(row=1, column=1, padx=5, pady=5)
 
-    entrypass = ttk.Entry(add, width=30, font=('Arial', 12), show="*")
+    entrypass = ttk.Entry(add, width=30, font=('Arial', 12), show='*')
     entrypass.grid(row=2, column=1, padx=5, pady=5)
+
+    showpass = ttk.Button(add, text="✓", command=show_pass)
+    showpass.grid(row=2, column=2, padx=5, pady=5)
     
+    def gen_pass():
+        entrypass.delete(0, tk.END)
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        generator = ''.join(random.choice(alphabet) for _ in range(10))
+        entrypass.insert(0, generator)
+
     def addpass():
         service = entryservice.get()
         login = entrylogin.get()
@@ -64,6 +87,10 @@ def addwin():
     
     addpasword = ttk.Button(add, text="Добавить", command=addpass)
     addpasword.grid(row=3, column=0, columnspan=2, pady=10)
+
+    generate = ttk.Button(add, text="Сгенерировать Пароль", command=gen_pass)
+    generate.grid(row=4, column=0, columnspan=2, pady=10)
+
 
 def view_password():
     try:
@@ -119,7 +146,6 @@ def del_pass():
         if answer:
             cursor.execute("DELETE FROM passwords WHERE service = ?", (service,))
             connection.commit()
-            messagebox.showinfo("Успех", f"Пароль для {service} удален!")
             load_passwords()
             
     except Exception as e:
