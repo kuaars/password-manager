@@ -1,0 +1,10 @@
+pycryptodome
+customtkinter
+tkinter
+random
+sqlite3
+pyperclip
+hashlib
+base64
+pickle
+rsa
