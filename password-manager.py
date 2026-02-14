@@ -148,7 +148,7 @@ def show_auth_window():
         else:
             messagebox.showerror("Ошибка", "Пароль слишком короткий\nМинимальная длина: 6 символов")
 
-    title_label = ctk.CTkLabel(auth, text="🔐 Менеджер паролей",
+    title_label = ctk.CTkLabel(auth, text="Менеджер паролей",
                                 font=ctk.CTkFont(size=24, weight="bold"))
     title_label.pack(pady=30)
 
@@ -159,7 +159,7 @@ def show_auth_window():
                           font=ctk.CTkFont(size=14))
     label.pack(pady=15)
     def reset():
-        a = messagebox.askyesnocancel("Внимание!","При сбросе мастер - пароля, все  сохраненные пароли  удалятся.\nПродолжить? ")
+        a = messagebox.askyesnocancel("Внимание!","При сбросе мастер-пароля, все сохраненные пароли удалятся.\nПродолжить? ")
         if a:
             os.system("del keys.enc")
             os.execl(sys.executable, sys.executable, *sys.argv)
@@ -227,12 +227,12 @@ def addwin():
     def show_pass():
         if entrypass.cget('show') == '●':
             entrypass.configure(show='')
-            showpass.configure(text="◉")
+            showpass.configure(text="Скрыть")
         else:
             entrypass.configure(show='●')
-            showpass.configure(text="◎")
+            showpass.configure(text="Показать")
 
-    title_label = ctk.CTkLabel(add, text="➕ Добавление нового пароля",
+    title_label = ctk.CTkLabel(add, text="Добавление нового пароля",
                                 font=ctk.CTkFont(size=20, weight="bold"))
     title_label.pack(pady=20)
 
@@ -265,7 +265,7 @@ def addwin():
                                font=ctk.CTkFont(size=13), show='●')
     entrypass.grid(row=2, column=1, padx=10, pady=10)
 
-    showpass = ctk.CTkButton(main_frame, text="◎", width=35, height=35,
+    showpass = ctk.CTkButton(main_frame, text="Показать", width=80, height=35,
                                command=show_pass)
     showpass.grid(row=2, column=2, padx=5, pady=10)
 
@@ -278,8 +278,6 @@ def addwin():
         if pas != paste:
             entrypass.delete(0, tk.END)
             entrypass.insert(0, paste)
-        else:
-            showpass.configure(state="disabled")
 
     def gen_pass():
         entrypass.delete(0, tk.END)
@@ -309,15 +307,15 @@ def addwin():
         else:
             messagebox.showerror("Ошибка!", "Все поля должны быть заполнены!")
 
-    past = ctk.CTkButton(button_frame, text="📋 Вставить", command=pastpass,
+    past = ctk.CTkButton(button_frame, text="Вставить", command=pastpass,
                           width=120, height=35)
     past.grid(row=0, column=0, padx=5)
 
-    generate = ctk.CTkButton(button_frame, text="🎲 Сгенерировать", command=gen_pass,
+    generate = ctk.CTkButton(button_frame, text="Сгенерировать", command=gen_pass,
                                width=150, height=35)
     generate.grid(row=0, column=1, padx=5)
 
-    addpasword = ctk.CTkButton(button_frame, text="💾 Сохранить", command=addpass,
+    addpasword = ctk.CTkButton(button_frame, text="Сохранить", command=addpass,
                                  width=120, height=35, fg_color="green", hover_color="darkgreen")
     addpasword.grid(row=0, column=2, padx=5)
 
@@ -351,7 +349,7 @@ def view_password():
                 viewpas.destroy()
                 return
 
-            title_label = ctk.CTkLabel(viewpas, text=f"🔑 {service}",
+            title_label = ctk.CTkLabel(viewpas, text=f"{service}",
                                         font=ctk.CTkFont(size=24, weight="bold"))
             title_label.pack(pady=30)
 
@@ -377,7 +375,7 @@ def view_password():
                 pyperclip.copy(password)
                 messagebox.showinfo("Успех!", "Пароль скопирован в буфер обмена!")
 
-            copypass = ctk.CTkButton(pass_frame, text="📋 Копировать", command=copy_pass,
+            copypass = ctk.CTkButton(pass_frame, text="Копировать", command=copy_pass,
                                        width=100, height=30)
             copypass.pack(side="left", padx=10)
 
@@ -412,22 +410,22 @@ def del_pass():
     except Exception as e:
         messagebox.showerror("Ошибка", f"Произошла ошибка: {str(e)}")
 
-title_label = ctk.CTkLabel(root, text="🔐 Менеджер паролей",
+title_label = ctk.CTkLabel(root, text="Менеджер паролей",
                             font=ctk.CTkFont(size=30, weight="bold"))
 title_label.pack(pady=20)
 
 button_container = ctk.CTkFrame(root, fg_color="transparent")
 button_container.pack(pady=10)
 
-add_button = ctk.CTkButton(button_container, text='➕ Добавить пароль', command=addwin,
+add_button = ctk.CTkButton(button_container, text='Добавить пароль', command=addwin,
                              width=150, height=40, font=ctk.CTkFont(size=14))
 add_button.grid(row=0, column=0, padx=10)
 
-view_button = ctk.CTkButton(button_container, text='👁️ Посмотреть', command=view_password,
+view_button = ctk.CTkButton(button_container, text='Посмотреть', command=view_password,
                               width=150, height=40, font=ctk.CTkFont(size=14))
 view_button.grid(row=0, column=1, padx=10)
 
-del_button = ctk.CTkButton(button_container, text='🗑️ Удалить', command=del_pass,
+del_button = ctk.CTkButton(button_container, text='Удалить', command=del_pass,
                              width=150, height=40, font=ctk.CTkFont(size=14),
                              fg_color="red", hover_color="darkred")
 del_button.grid(row=0, column=2, padx=10)
